@@ -4,27 +4,37 @@ using UnityEngine.UI;
 
 public class SoundSlider : MonoBehaviour
 {
-    [SerializeField] protected AudioMixerGroup _mixer;
-    [SerializeField] protected Slider _slider;
+    [SerializeField] private AudioMixerGroup _mixer;
+    [SerializeField] private Slider _slider;
 
-    protected readonly float _maxSoundValue = 1f;
-    protected readonly float _minSoundValue = 0.0001f;
-    protected string _parametrName;
-    protected float _correctionNumber = 20f;
+    private string _parametrName;
 
-    public float Volume { get; protected set; }
-
-    public void Initilization(string parametrName, float volume)
+    private void OnDisable()
     {
-        _parametrName = parametrName;
-        Volume = volume;
-        _slider.value = Volume;
+        _slider.onValueChanged.RemoveListener(ChangeVolume);
     }
 
-    public void ChangeVolume(float value)
+    public void Initilization(string parametrName)
     {
-        value = Mathf.Clamp(value, _minSoundValue, _maxSoundValue);
-        Volume = value;
-        _mixer.audioMixer.SetFloat(_parametrName, Mathf.Log10(Volume) * _correctionNumber);
+        float minValueInDecibels = -80f;
+        float maxValueInDecibels = 0f;
+
+        _parametrName = parametrName;
+
+        _mixer.audioMixer.GetFloat(_parametrName, out float valueInDecibels);
+        float valueToSlider = Mathf.InverseLerp(minValueInDecibels, maxValueInDecibels, valueInDecibels);
+        _slider.value = valueToSlider;
+        Debug.Log($"valueInDecibels:{valueInDecibels} valueToSlider:{valueToSlider}");
+        _slider.onValueChanged.AddListener(ChangeVolume);
+    }
+
+    private void ChangeVolume(float valueSlider)
+    {
+        float maxSoundValue = 1f;
+        float minSoundValue = 0.0001f;
+        float correctionNumber = 20f;
+        Debug.Log($"valueSlider{valueSlider}");
+        valueSlider = Mathf.Clamp(valueSlider, minSoundValue, maxSoundValue);
+        _mixer.audioMixer.SetFloat(_parametrName, Mathf.Log10(valueSlider) * correctionNumber);
     }
 }
