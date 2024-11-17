@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DamageButton : HearthButton
+public class DamageButton : HeartButton
 {
     [SerializeField] private Button _damageButton;
     [SerializeField, Min(0f)] private float _damage;

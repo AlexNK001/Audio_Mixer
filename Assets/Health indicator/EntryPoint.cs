@@ -6,7 +6,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField, Min(0f)] private float _maxHealth;
     [SerializeField, Min(0f)] private float _currentHealth;
     [SerializeField] private HeartListener[] _heartListeners;
-    [SerializeField] private HearthButton[] _hearthButtons;
+    [SerializeField] private HeartButton[] _hearthButtons;
 
     private void Start()
     {
