@@ -6,6 +6,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField, Min(0f)] private float _maxHealth;
     [SerializeField, Min(0f)] private float _currentHealth;
     [SerializeField] private HeartListener[] _heartListeners;
+    [SerializeField] private HearthButton[] _hearthButtons;
 
     private void Start()
     {
@@ -14,6 +15,11 @@ public class EntryPoint : MonoBehaviour
         for (int i = 0; i < _heartListeners.Length; i++)
         {
             _heartListeners[i].Initilization(_heart, _maxHealth, _currentHealth);
+        }
+
+        for (int i = 0; i < _hearthButtons.Length; i++)
+        {
+            _hearthButtons[i].Initilization(_heart);
         }
     }
 }

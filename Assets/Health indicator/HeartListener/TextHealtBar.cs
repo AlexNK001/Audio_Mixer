@@ -8,7 +8,7 @@ public class TextHealtBar : HeartListener
     private Heart _heart;
     private float _maxHealth;
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         _heart.HealthChanged -= DisplayHealth;
     }

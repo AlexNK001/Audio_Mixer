@@ -21,6 +21,14 @@ public class SmoothHealthBar : HeartListener
 
     private void OnDisable()
     {
+        _subSlider.value = _mainSlider.value;
+
+        if (_decrease != null)
+            StopCoroutine(_decrease);
+    }
+
+    private void OnDestroy()
+    {
         _heart.HealthChanged -= DisplayHealth;
     }
 
@@ -36,7 +44,6 @@ public class SmoothHealthBar : HeartListener
     private void DisplayHealth(float newHealthValue)
     {
         float finalNormalizedHealthValue = GetNormalizedHealth(newHealthValue);
-
 
         if (_decrease != null)
             StopCoroutine(_decrease);
@@ -64,7 +71,7 @@ public class SmoothHealthBar : HeartListener
             yield return null;
         }
 
-        _mainSlider.value = _subSlider.value;
+        _subSlider.value = _mainSlider.value;
     }
 
     private float GetNormalizedHealth(float currentHealth)

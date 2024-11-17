@@ -8,12 +8,12 @@ public class DamageButton : HearthButton
 
     private Heart _heart;
 
-    private void OnEnable()
-    {
-        _damageButton.onClick.AddListener(Attack);
-    }
+    //private void OnEnable()
+    //{
+    //    _damageButton.onClick.AddListener(Attack);
+    //}
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         _damageButton.onClick.RemoveListener(Attack);
     }
@@ -26,10 +26,6 @@ public class DamageButton : HearthButton
     public override void Initilization(Heart heart)
     {
         _heart = heart;
+        _damageButton.onClick.AddListener(Attack);
     }
-}
-
-public abstract class HearthButton : MonoBehaviour
-{
-    public abstract void Initilization(Heart heart);
 }
